@@ -9,7 +9,7 @@ export const KashmirEscapades = () => {
 
   return (
     <div className="App">
-      <button> PDF Generator</button>
+      <h1> PDF Generator</h1>
       <PDFDownloadLink
         style={{ width: "100%", height: "100vh" }}
         document={<ItineraryPDF itinerary={itinerary} />}

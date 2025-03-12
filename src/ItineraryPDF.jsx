@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontFamily: "Helvetica",
   },
+
   headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -39,28 +40,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textTransform: "uppercase",
   },
-  sectionTitle: {
-    fontSize: 14,
-    color: "#000",
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  infoContainer: {
-    marginBottom: 15,
-  },
-  text: {
-    fontSize: 10,
-    marginBottom: 4,
-    lineHeight: 1.2,
-    textAlign: "left",
-  },
-  boldText: {
-    fontSize: 10,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
+
   divider: {
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
@@ -198,6 +178,38 @@ const styles = StyleSheet.create({
     height: 250,
     marginTop: 20,
   },
+
+  ////
+
+  travelPage: {
+    padding: 30,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  guestInformation: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  infoContainer: {
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 12,
+    marginBottom: 5,
+    flexDirection: "row",
+  },
+  label: {
+    fontWeight: "bold",
+    marginRight: 100,
+    flexDirection: "row",
+  },
+  value: {
+    marginLeft: 10,
+  },
 });
 
 const ItineraryPDF = ({ itinerary }) => (
@@ -220,47 +232,70 @@ const ItineraryPDF = ({ itinerary }) => (
     </Page>
 
     {/* Page 2: Travel Information */}
-    <Page size="A4" style={styles.page}>
+
+    <Page size="A4" style={styles.travelPage}>
       <Text style={styles.sectionTitle}>Travel Information</Text>
-      <Text style={styles.boldText}>Guest Information</Text>
+      <Text style={styles.guestInformation}>Guest Information</Text>
       <View style={styles.infoContainer}>
-        <Text style={styles.text}>
-          Guest Name: {itinerary.travellerDetails.guestName}
-        </Text>
-        <Text style={styles.text}>
-          Arrival:{" "}
-          {new Date(
-            itinerary.travellerDetails.arrivalDate
-          ).toLocaleDateString()}
-        </Text>
-        <Text style={styles.text}>
-          Contact: {itinerary.travellerDetails.contactNumber}
-        </Text>
-        <Text style={styles.text}>
-          Number of Adults: {itinerary.travellerDetails.adults}
-        </Text>
-        <Text style={styles.text}>
-          Number of Children: {itinerary.travellerDetails.children} [0 yrs, 0
-          yrs, 0 yrs]
-        </Text>
-        <Text style={styles.text}>
-          Meal Plan: {itinerary.travellerDetails.mealPlan}
-        </Text>
-        <Text style={styles.text}>
-          Holiday Duration: {itinerary.travellerDetails.packageNights} nights &{" "}
-          {itinerary.travellerDetails.packageNights + 1} days
-        </Text>
-        <Text style={styles.text}>
-          Vehicles:{" "}
-          {itinerary.travellerDetails.vehicle
-            .map((v) => `${v.name} x ${v.count}`)
-            .join(", ")}
-        </Text>
-        <Text style={styles.text}>
-          Vehicle Type:{" "}
-          {itinerary.travellerDetails.vehicle[0]?.type || "Non-AC"}
-        </Text>
+        <View style={styles.text}>
+          <Text style={styles.label}>Guest Name:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.guestName}
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Arrival:</Text>
+          <Text style={styles.value}>
+            {new Date(
+              itinerary.travellerDetails.arrivalDate
+            ).toLocaleDateString()}
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Contact:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.contactNumber}
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Number of Adults:</Text>
+          <Text style={styles.value}>{itinerary.travellerDetails.adults}</Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Number of Children:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.children} [0 yrs, 0 yrs, 0 yrs]
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Meal Plan:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.mealPlan}
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Holiday Duration:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.packageNights} nights &{" "}
+            {itinerary.travellerDetails.packageNights + 1} days
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Vehicles:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.vehicle
+              .map((v) => `${v.name} x ${v.count}`)
+              .join(", ")}
+          </Text>
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.label}>Vehicle Type:</Text>
+          <Text style={styles.value}>
+            {itinerary.travellerDetails.vehicle[0]?.type || "Non-AC"}
+          </Text>
+        </View>
       </View>
+
       <View style={styles.divider} />
       <Text style={styles.boldText}>Our Contact</Text>
       <View style={styles.infoContainer}>
@@ -280,32 +315,6 @@ const ItineraryPDF = ({ itinerary }) => (
         Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
-    {/* Page 3: Introduction to Kashmir */}
-    {/* <Page size="A4" style={styles.page}>
-      <Text style={styles.sectionTitle}>Welcome to Kashmir</Text>
-      <Text style={styles.descriptionText}>
-        "Paradise on Earth," nestled in the northern Himalayas, enchants with
-        its natural marvels. Dal Lake Shikaras epitomize its picturesque charm.
-        Gulmarg offers premier skiing and the iconic Gulmarg Gondola views.
-        Sonmarg boasts lush meadows and serene landscapes, perfect for trekking
-        and tranquility seekers. Gurez reveals Kashmir's pristine beauty.
-        Doodhpathri's meadows and streams add a serene touch. Mughal
-        Gardens—Shalimar Bagh, Nishat Bagh, and Chashme Shahi—showcase Mughal
-        grandeur. Culture intertwines seamlessly with its landscapes. Delight in
-        local cuisines, explore traditional crafts, and experience unparalleled
-        natural beauty and rich heritage. Kashmir invites travelers to discover
-        a world of splendor.
-      </Text>
-      <Text style={styles.boldText}>Places to Visit</Text>
-      <Text style={styles.text}>Gurez: 126 km</Text>
-      <Text style={styles.text}>Sonmarg: 80 km</Text>
-      <Text style={styles.text}>Srinagar Airport: 146 km</Text>
-      <Text style={styles.text}>Doodhpathri: 68 km</Text>
-      <Text style={styles.text}>Pahalgam</Text>
-      <Text style={styles.footer}>
-        Kashmir Escapades | Powered by Tripdocks
-      </Text>
-    </Page> */}
 
     {/* Page 4: Overview */}
     <Page size="A4" style={styles.page}>
