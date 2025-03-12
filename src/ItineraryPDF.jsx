@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 80,
     height: "auto",
+    justifyContent: "flex-end",
   },
   headerText: {
     textAlign: "right",
@@ -39,34 +40,31 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   sectionTitle: {
-    fontSize: 20,
-    Color: "blue",
+    fontSize: 14,
+    color: "#000",
     fontWeight: "bold",
+    textTransform: "uppercase",
     marginTop: 20,
     marginBottom: 10,
   },
-  daySection: {
+  infoContainer: {
     marginBottom: 15,
-  },
-  dayTitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginBottom: 5,
   },
   text: {
     fontSize: 10,
-    marginBottom: 3,
-    lineHeight: 1.5,
+    marginBottom: 4,
+    lineHeight: 1.2,
+    textAlign: "left",
   },
   boldText: {
     fontSize: 10,
     fontWeight: "bold",
-    marginBottom: 3,
+    marginBottom: 4,
   },
-  listItem: {
-    fontSize: 10,
-    marginLeft: 10,
-    marginBottom: 3,
+  divider: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    marginVertical: 15,
   },
   footer: {
     position: "absolute",
@@ -76,6 +74,95 @@ const styles = StyleSheet.create({
     fontSize: 8,
     textAlign: "left",
     color: "#666",
+  },
+  image: {
+    width: "100%",
+    height: "auto",
+    marginBottom: 10,
+  },
+  // Overview page styles
+  overviewContainer: {
+    flexDirection: "row",
+    height: "100%",
+  },
+  overviewMain: {
+    width: "60%",
+    paddingRight: 20,
+  },
+  overviewSidebar: {
+    width: "40%",
+    backgroundColor: "#1A7A6D",
+    padding: 20,
+    color: "#fff",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
+  overviewTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    color: "#000",
+    marginBottom: 10,
+  },
+  itinerarySubtitle: {
+    fontSize: 12,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  dayBlock: {
+    flexDirection: "row",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 5,
+  },
+  dayBlockOdd: {
+    backgroundColor: "#A3C7D6",
+  },
+  dayBlockEven: {
+    backgroundColor: "#4B8E9F",
+    color: "#fff",
+  },
+  dayLabel: {
+    width: "20%",
+    fontSize: 12,
+    fontWeight: "bold",
+  },
+  dayDetails: {
+    width: "80%",
+    fontSize: 10,
+  },
+  sidebarTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    textAlign: "center",
+    color: "#fff",
+  },
+  sidebarTagline: {
+    fontSize: 10,
+    textTransform: "uppercase",
+    textAlign: "center",
+    color: "#F5A623",
+    marginTop: 10,
+  },
+  sidebarImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginVertical: 10,
+    alignSelf: "center",
+  },
+  // Additional styles for other pages
+  descriptionText: {
+    fontSize: 10,
+    marginBottom: 10,
+    lineHeight: 1.5,
+    textAlign: "justify",
+  },
+  listItem: {
+    fontSize: 10,
+    marginLeft: 10,
+    marginBottom: 3,
   },
   table: {
     display: "flex",
@@ -100,16 +187,22 @@ const styles = StyleSheet.create({
     width: "50%",
     padding: 5,
   },
-  image: {
-    width: "100%",
-    height: "auto",
-    marginBottom: 10,
+  centeredText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 20,
+  },
+  dayImage: {
+    width: 550,
+    height: 250,
+    marginTop: 20,
   },
 });
 
 const ItineraryPDF = ({ itinerary }) => (
   <Document>
-    {/* Cover Page */}
+    {/* Page 1: Cover Page */}
     <Page size="A4" style={styles.page}>
       <Image
         src={itinerary.companyImages.companyBackgroundImage}
@@ -118,60 +211,202 @@ const ItineraryPDF = ({ itinerary }) => (
       <View style={styles.headerContainer}>
         <Image src={itinerary.companyImages.companyLogo} style={styles.logo} />
         <View style={styles.headerText}>
-          <Text style={styles.companyName}>
-            {itinerary.companyInfo.companyName}
-          </Text>
-          <Text style={styles.text}>
-            Itinerary for {itinerary.travellerDetails.guestName}
-          </Text>
+          <Text style={styles.companyName}>Kashmir Escapades</Text>
         </View>
       </View>
+      <Text style={styles.footer}>
+        Kashmir Escapades | Powered by Tripdocks
+      </Text>
     </Page>
 
-    {/* Traveller Details */}
+    {/* Page 2: Travel Information */}
     <Page size="A4" style={styles.page}>
       <Text style={styles.sectionTitle}>Travel Information</Text>
       <Text style={styles.boldText}>Guest Information</Text>
-      <Text style={styles.text}>
-        Guest Name: {itinerary.travellerDetails.guestName}
-      </Text>
-      <Text style={styles.text}>
-        Arrival:{" "}
-        {new Date(itinerary.travellerDetails.arrivalDate).toLocaleDateString()}
-      </Text>
-      <Text style={styles.text}>
-        Contact: {itinerary.travellerDetails.contactNumber}
-      </Text>
-      <Text style={styles.text}>
-        Number of Adults: {itinerary.travellerDetails.adults}
-      </Text>
-      <Text style={styles.text}>
-        Number of Children: {itinerary.travellerDetails.children}
-      </Text>
-      <Text style={styles.text}>
-        Meal Plan: {itinerary.travellerDetails.mealPlan}
-      </Text>
-      <Text style={styles.text}>
-        Holiday Duration: {itinerary.travellerDetails.packageNights} nights &{" "}
-        {itinerary.travellerDetails.packageNights + 1} days
-      </Text>
-      <Text style={styles.text}>
-        Vehicles:{" "}
-        {itinerary.travellerDetails.vehicle
-          .map((v) => `${v.name} x ${v.count} (${v.type})`)
-          .join(", ")}
-      </Text>
+      <View style={styles.infoContainer}>
+        <Text style={styles.text}>
+          Guest Name: {itinerary.travellerDetails.guestName}
+        </Text>
+        <Text style={styles.text}>
+          Arrival:{" "}
+          {new Date(
+            itinerary.travellerDetails.arrivalDate
+          ).toLocaleDateString()}
+        </Text>
+        <Text style={styles.text}>
+          Contact: {itinerary.travellerDetails.contactNumber}
+        </Text>
+        <Text style={styles.text}>
+          Number of Adults: {itinerary.travellerDetails.adults}
+        </Text>
+        <Text style={styles.text}>
+          Number of Children: {itinerary.travellerDetails.children} [0 yrs, 0
+          yrs, 0 yrs]
+        </Text>
+        <Text style={styles.text}>
+          Meal Plan: {itinerary.travellerDetails.mealPlan}
+        </Text>
+        <Text style={styles.text}>
+          Holiday Duration: {itinerary.travellerDetails.packageNights} nights &{" "}
+          {itinerary.travellerDetails.packageNights + 1} days
+        </Text>
+        <Text style={styles.text}>
+          Vehicles:{" "}
+          {itinerary.travellerDetails.vehicle
+            .map((v) => `${v.name} x ${v.count}`)
+            .join(", ")}
+        </Text>
+        <Text style={styles.text}>
+          Vehicle Type:{" "}
+          {itinerary.travellerDetails.vehicle[0]?.type || "Non-AC"}
+        </Text>
+      </View>
+      <View style={styles.divider} />
+      <Text style={styles.boldText}>Our Contact</Text>
+      <View style={styles.infoContainer}>
+        <Text style={styles.text}>Consultant Name: Imran Makhdoomi</Text>
+        <Text style={styles.text}>Contact: 9797112227</Text>
+        <Text style={styles.text}>Email: kashmireescapades@gmail.com</Text>
+        <Text style={styles.text}>Address: 90ft Soura, Srinagar</Text>
+        <Text style={styles.text}>Company Contact: 9797112227</Text>
+        <Text style={styles.text}>
+          Company Email: kashmireescapades@gmail.com
+        </Text>
+        <Text style={styles.text}>
+          Company Website: www.tour.kash-mireescapades.com
+        </Text>
+      </View>
       <Text style={styles.footer}>
-        {itinerary.companyInfo.companyName} | Powered by Tripdocks
+        Kashmir Escapades | Powered by Tripdocks
+      </Text>
+    </Page>
+    {/* Page 3: Introduction to Kashmir */}
+    {/* <Page size="A4" style={styles.page}>
+      <Text style={styles.sectionTitle}>Welcome to Kashmir</Text>
+      <Text style={styles.descriptionText}>
+        "Paradise on Earth," nestled in the northern Himalayas, enchants with
+        its natural marvels. Dal Lake Shikaras epitomize its picturesque charm.
+        Gulmarg offers premier skiing and the iconic Gulmarg Gondola views.
+        Sonmarg boasts lush meadows and serene landscapes, perfect for trekking
+        and tranquility seekers. Gurez reveals Kashmir's pristine beauty.
+        Doodhpathri's meadows and streams add a serene touch. Mughal
+        Gardens—Shalimar Bagh, Nishat Bagh, and Chashme Shahi—showcase Mughal
+        grandeur. Culture intertwines seamlessly with its landscapes. Delight in
+        local cuisines, explore traditional crafts, and experience unparalleled
+        natural beauty and rich heritage. Kashmir invites travelers to discover
+        a world of splendor.
+      </Text>
+      <Text style={styles.boldText}>Places to Visit</Text>
+      <Text style={styles.text}>Gurez: 126 km</Text>
+      <Text style={styles.text}>Sonmarg: 80 km</Text>
+      <Text style={styles.text}>Srinagar Airport: 146 km</Text>
+      <Text style={styles.text}>Doodhpathri: 68 km</Text>
+      <Text style={styles.text}>Pahalgam</Text>
+      <Text style={styles.footer}>
+        Kashmir Escapades | Powered by Tripdocks
+      </Text>
+    </Page> */}
+
+    {/* Page 4: Overview */}
+    <Page size="A4" style={styles.page}>
+      <View style={styles.overviewContainer}>
+        <View style={styles.overviewMain}>
+          <Text style={styles.overviewTitle}>Overview</Text>
+          <Text style={styles.itinerarySubtitle}>
+            Itinerary for {itinerary.travellerDetails.packageNights} Nights &{" "}
+            {itinerary.travellerDetails.packageNights + 1} Days
+          </Text>
+          <Text style={styles.itinerarySubtitle}>
+            Arrival:{" "}
+            {new Date(
+              itinerary.travellerDetails.arrivalDate
+            ).toLocaleDateString()}{" "}
+            Departure:{" "}
+            {new Date(
+              itinerary.travellerDetails.departureDate
+            ).toLocaleDateString()}
+          </Text>
+          {itinerary.itineraryDetails.map((day, index) => (
+            <View
+              key={index}
+              style={[
+                styles.dayBlock,
+                index % 2 === 0 ? styles.dayBlockOdd : styles.dayBlockEven,
+              ]}
+            >
+              <Text style={styles.dayLabel}>Day {day.dayNumber}</Text>
+              <View style={styles.dayDetails}>
+                {day.destinations.length > 0 && (
+                  <Text style={styles.text}>
+                    Sightseeing:{" "}
+                    {day.destinations
+                      .map((dest) => dest.destinationName)
+                      .join(", ")}
+                  </Text>
+                )}
+                {day.destinations.length === 0 &&
+                  index !== itinerary.itineraryDetails.length - 1 && (
+                    <Text style={styles.text}>Sightseeing: No Sightseeing</Text>
+                  )}
+                {day.nightStayLocation && (
+                  <Text style={styles.text}>
+                    Night Stay: {day.nightStayLocation}
+                  </Text>
+                )}
+                {day.hotelName && (
+                  <Text style={styles.text}>Night Stay: {day.hotelName}</Text>
+                )}
+                {index === itinerary.itineraryDetails.length - 1 && (
+                  <Text style={styles.text}>
+                    Departure: {itinerary.travellerDetails.departureLocation}
+                  </Text>
+                )}
+              </View>
+            </View>
+          ))}
+        </View>
+        <View style={styles.overviewSidebar}>
+          <View>
+            <Text style={styles.sidebarTitle}>Kashmir Escapades</Text>
+            <Text style={styles.sidebarTagline}>Customised Holidays</Text>
+            {itinerary.companyImages.sidebarImage1 && (
+              <Image
+                src={itinerary.companyImages.sidebarImage1}
+                style={styles.sidebarImage}
+              />
+            )}
+          </View>
+          <View>
+            <Text style={styles.sidebarTagline}>Exotic Destinations</Text>
+            {itinerary.companyImages.sidebarImage2 && (
+              <Image
+                src={itinerary.companyImages.sidebarImage2}
+                style={styles.sidebarImage}
+              />
+            )}
+          </View>
+          <View>
+            <Text style={styles.sidebarTagline}>Travel Planner</Text>
+            {itinerary.companyImages.sidebarImage3 && (
+              <Image
+                src={itinerary.companyImages.sidebarImage3}
+                style={styles.sidebarImage}
+              />
+            )}
+          </View>
+        </View>
+      </View>
+      <Text style={styles.footer}>
+        Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
 
-    {/* Itinerary Days */}
+    {/*Itinerary Days */}
     {itinerary.itineraryDetails.map((day, index) => (
       <Page key={index} size="A4" style={styles.page}>
         <Text style={styles.sectionTitle}>Day {day.dayNumber}</Text>
-        <View style={styles.daySection}>
-          <Text style={styles.dayTitle}>
+        <View style={styles.infoContainer}>
+          <Text style={styles.boldText}>
             Route:{" "}
             {index === 0
               ? itinerary.travellerDetails.arrivalLocation
@@ -188,35 +423,54 @@ const ItineraryPDF = ({ itinerary }) => (
               ).toLocaleDateString()}
             </Text>
           )}
+          {day.breakfastLocation && (
+            <Text style={styles.text}>
+              Breakfast in {day.breakfastLocation}
+            </Text>
+          )}
           {day.nightStayLocation && (
             <Text style={styles.text}>Night Stay: {day.nightStayLocation}</Text>
           )}
           {day.hotelName && <Text style={styles.text}>{day.hotelName}</Text>}
+          {day.description && (
+            <Text style={styles.descriptionText}>{day.description}</Text>
+          )}
           {day.destinations.length > 0 && (
             <>
               <Text style={styles.boldText}>Sightseeing</Text>
               {day.destinations.map((dest, idx) => (
                 <View key={idx}>
                   <Text style={styles.text}>+ {dest.destinationName}</Text>
-                  <Text style={styles.text}>{dest.destinationDescription}</Text>
-                  <Image src={dest.destinationImages} style={styles.image} />
                   {dest.attractions.map((attr, i) => (
                     <Text key={i} style={styles.listItem}>
                       + {attr}
                     </Text>
                   ))}
+                  {dest.destinationImages && (
+                    <Image
+                      src={dest.destinationImages}
+                      style={styles.dayImage}
+                    />
+                  )}
                 </View>
               ))}
             </>
           )}
           {index === itinerary.itineraryDetails.length - 1 && (
-            <Text style={styles.text}>
-              Departure from {itinerary.travellerDetails.departureLocation}
+            <Text style={styles.descriptionText}>
+              Today marks the end of our wonderful journey together. Please
+              ensure you check out of your rooms on time and have all your
+              belongings packed. Our tour guide will be available to assist you
+              with any last-minute needs. We sincerely thank you for choosing to
+              travel with us and hope you have enjoyed this trip as much as we
+              have enjoyed having you with us. Safe travels, and we look forward
+              to welcoming you on another adventure in the future. Until we meet
+              again!
             </Text>
           )}
         </View>
         <Text style={styles.footer}>
-          {itinerary.companyInfo.companyName} | Powered by Tripdocks
+          Kashmir Escapades | Powered by Tripdocks
         </Text>
       </Page>
     ))}
@@ -225,8 +479,8 @@ const ItineraryPDF = ({ itinerary }) => (
     <Page size="A4" style={styles.page}>
       <Text style={styles.sectionTitle}>Accommodations</Text>
       {itinerary.accomodations.map((acc, index) => (
-        <View key={index} style={styles.daySection}>
-          <Text style={styles.dayTitle}>
+        <View key={index} style={styles.infoContainer}>
+          <Text style={styles.boldText}>
             Night {acc.night} at {acc.hotelLocation} | Check-in{" "}
             {new Date(itinerary.travellerDetails.arrivalDate).getDate() +
               acc.night -
@@ -245,11 +499,11 @@ const ItineraryPDF = ({ itinerary }) => (
         </View>
       ))}
       <Text style={styles.footer}>
-        {itinerary.companyInfo.companyName} | Powered by Tripdocks
+        Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
 
-    {/* Package Details */}
+    {/* Page 15: Package Details */}
     <Page size="A4" style={styles.page}>
       <Text style={styles.sectionTitle}>Package Details</Text>
       <Text style={styles.boldText}>Traveller Details</Text>
@@ -312,13 +566,12 @@ const ItineraryPDF = ({ itinerary }) => (
       <Text style={styles.text}>
         The Booking process will start after an advanced deposit of Rs 15%
       </Text>
-
       <Text style={styles.footer}>
-        {itinerary.companyInfo.companyName} | Powered by Tripdocks
+        Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
 
-    {/* Inclusions & Exclusions */}
+    {/* Page 16: Inclusions & Exclusions */}
     <Page size="A4" style={styles.page}>
       <Text style={styles.sectionTitle}>Inclusion & Exclusion</Text>
       <Text style={styles.boldText}>Inclusions</Text>
@@ -334,11 +587,11 @@ const ItineraryPDF = ({ itinerary }) => (
         </Text>
       ))}
       <Text style={styles.footer}>
-        {itinerary.companyInfo.companyName} | Powered by Tripdocks
+        Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
 
-    {/* Terms & Conditions */}
+    {/* Pages 17–18: Terms & Conditions */}
     <Page size="A4" style={styles.page}>
       <Text style={styles.sectionTitle}>Terms & Conditions</Text>
       {itinerary.termsAndConditions.termsAndConditions.map((term, index) => (
@@ -352,22 +605,20 @@ const ItineraryPDF = ({ itinerary }) => (
         </View>
       ))}
       <Text style={styles.footer}>
-        {itinerary.companyInfo.companyName} | Powered by Tripdocks
+        Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
 
-    {/* Last Page */}
+    {/* Page 19: Closing Page */}
     <Page size="A4" style={styles.page}>
       <Image
         src={itinerary.companyImages.companyLastPageImage}
         style={styles.image}
       />
-      <Text style={styles.companyName}>
-        {itinerary.companyInfo.companyName}
-      </Text>
-      <Text style={styles.text}>MORE HAPPINESS WITH US</Text>
+      <Text style={styles.centeredText}>Kashmir Escapades</Text>
+      <Text style={styles.centeredText}>More Happiness With Us</Text>
       <Text style={styles.footer}>
-        {itinerary.companyInfo.companyName} | Powered by Tripdocks
+        Kashmir Escapades | Powered by Tripdocks
       </Text>
     </Page>
   </Document>
