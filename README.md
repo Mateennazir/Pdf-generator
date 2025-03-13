@@ -31,6 +31,8 @@ Visit http://localhost:3000 and click "Download Your Kashmir Itinerary"
 
 Sample Look
 
+- **Image**: The `![App Screenshot](../Capture.PNG)`
+
 Here's how it looks:
 
     A centered white card with a gradient background
